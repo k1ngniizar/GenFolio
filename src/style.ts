@@ -1,4 +1,5 @@
-export const styleTemplate = ` :root {
+export const styleTemplate = ` 
+:root {
         font-family: "DM Sans", sans-serif;
         color: #181818;
         background: #e9e6df;

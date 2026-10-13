@@ -1,4 +1,3 @@
-import "./styles.css";
 import { styleTemplate } from "./style";
 
 // SCHEMA
@@ -152,6 +151,7 @@ const selectorFn = <T extends HTMLElement = HTMLElement>(selector: string): T =>
   document.querySelector(selector) as T;
 const app = selectorFn("#app");
 let data = loadData();
+console.log("Main data::", data);
 let draggedSection: SectionKey | null = null;
 
 app.innerHTML = `
@@ -165,7 +165,8 @@ app.innerHTML = `
     </header>
     <main class="workspace">
       <aside class="sidebar">
-        <div class="sidebar-heading"><span>Portfolio studio</span><button id="resetButton" class="text-button" type="button">Reset</button></div>
+        <div class="sidebar-heading"><span>Portfolio studio</span>
+        <button id="resetButton" class="text-button" type="button">Reset</button></div>
         <nav class="tabs" aria-label="Editor sections">
           <button class="tab active" data-tab="content" type="button"><span>01</span> Content</button>
           <button class="tab" data-tab="style" type="button"><span>02</span> Style</button>
@@ -267,11 +268,23 @@ app.innerHTML = `
         </div>
       </aside>
       <section class="preview-area">
-        <div class="preview-toolbar"><div><span class="live-dot"></span> Live preview</div><div class="device-switch"><button class="active" data-device="desktop" type="button">Desktop</button><button data-device="mobile" type="button">Mobile</button></div></div>
-        <div class="preview-stage"><div id="preview" class="portfolio preview-desktop template-${data.template}" style="--accent:${data.theme.accent};--bg:${data.theme.background};--text:${data.theme.text};--muted:${data.theme.muted};--surface:${data.theme.surface}"></div></div>
+        <div class="preview-toolbar">
+          <div>
+          <span class="live-dot"></span> Live preview
+          </div>
+          <div class="device-switch">
+            <button class="active" data-device="desktop" type="button">Desktop</button>
+            <button data-device="mobile" type="button">Mobile</button>
+          </div>
+        </div>
+        <div class="preview-stage">
+          <div id="preview" class="portfolio preview-desktop template-${data.template}" style="--accent:${data.theme.accent};--bg:${data.theme.background};--text:${data.theme.text};--muted:${data.theme.muted};--surface:${data.theme.surface}">
+          </div>
+        </div>
       </section>
     </main>
-  </div>`;
+  </div>
+`;
 
 renderTemplates();
 renderShapes();
@@ -280,6 +293,7 @@ renderSectionList();
 renderPreview();
 bindEvents();
 
+// LOAD DATA FROM LOCALSTORAGE OR DEFAULT DATA
 function loadData(): PortfolioData {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -295,7 +309,9 @@ function loadData(): PortfolioData {
   }
 }
 
+// SAVE DATA TO LOCAL STORAGE AND RENDER BUTTON
 function saveData(): void {
+  console.log("Save data");
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   const button = selectorFn("#saveButton");
   button.classList.add("saved");
@@ -307,6 +323,8 @@ function saveData(): void {
 }
 
 function bindEvents(): void {
+  console.log("Bind events");
+
   document
     .querySelectorAll<HTMLButtonElement>(".tab")
     .forEach((button) =>
@@ -393,21 +411,28 @@ function updateField(event: Event): void {
 function updateColor(event: Event): void {
   const color = (event.currentTarget as HTMLInputElement).dataset
     .color as keyof typeof data.theme;
+  console.log("Check data:: ", data.theme);
+
   data.theme[color] = (event.currentTarget as HTMLInputElement).value;
+  console.log("After check:: ", data.theme);
+
   renderPreview();
   saveData();
 }
 
 function renderTemplates(): void {
+  console.log("Render templates");
   selectorFn("#templateGrid").innerHTML = templateOptions
     .map(
       (template) =>
         `<button class="template-card ${data.template === template.key ? "selected" : ""}" data-template="${template.key}" type="button"><span class="template-preview template-${template.key}"><i></i><b></b><em></em></span><strong>${template.name}</strong><small>${template.description}</small></button>`,
     )
     .join("");
+  bindEvents();
 }
 
 function renderShapes(): void {
+  console.log("Render shapes");
   const shapes: AvatarShape[] = ["circle", "square", "diamond", "arch"];
   selectorFn("#shapeGrid").innerHTML = shapes
     .map(
@@ -415,9 +440,12 @@ function renderShapes(): void {
         `<button class="shape-option ${data.avatarShape === shape ? "selected" : ""}" data-shape="${shape}" type="button" aria-label="${shape} avatar"><span class="avatar-shape ${shape}"></span></button>`,
     )
     .join("");
+  bindEvents();
 }
 
 function renderSkills(): void {
+  console.log("Render Skills");
+
   selectorFn("#skillsEditor").innerHTML =
     `<div class="skill-list">${data.skills.map((skill, index) => `<span><input value="${escapeHtml(skill)}" data-skill-index="${index}" /><button type="button" data-remove-skill="${index}" aria-label="Remove ${escapeHtml(skill)}">x</button></span>`).join("")}</div><button class="add-item" data-list="skills" type="button">＋ Add skill</button>`;
   selectorFn("#skillsEditor")
@@ -452,6 +480,8 @@ function renderSkills(): void {
 }
 
 function renderSectionList(): void {
+  console.log("Render Section list");
+
   selectorFn("#sectionList").innerHTML = data.sections
     .map(
       (key, index) =>
@@ -544,6 +574,8 @@ function addItem(event: Event): void {
 }
 
 function renderPreview(): void {
+  console.log("Render Preview");
+
   const initials = data.name
     .split(" ")
     .map((part) => part[0])
@@ -564,7 +596,12 @@ function renderPreview(): void {
     "template-editorial",
     "template-bold",
   );
+
   selectorFn("#preview").classList.add(`template-${data.template}`);
+  selectorFn("#preview").setAttribute(
+    "style",
+    `--accent:${data.theme.accent};--bg:${data.theme.background};--text:${data.theme.text};--muted:${data.theme.muted};--surface:${data.theme.surface}`,
+  );
   selectorFn("#preview").style.setProperty(
     "--avatar-shape",
     data.avatarShape === "circle"
