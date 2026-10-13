@@ -346,6 +346,7 @@ function bindEvents(): void {
         renderTemplates();
         renderPreview();
         saveData();
+        bindEvents();
       }),
     );
   document
@@ -356,6 +357,7 @@ function bindEvents(): void {
         renderShapes();
         renderPreview();
         saveData();
+        bindEvents();
       }),
     );
   selectorFn("#avatarInput").addEventListener("change", handleAvatarUpload);
@@ -428,7 +430,6 @@ function renderTemplates(): void {
         `<button class="template-card ${data.template === template.key ? "selected" : ""}" data-template="${template.key}" type="button"><span class="template-preview template-${template.key}"><i></i><b></b><em></em></span><strong>${template.name}</strong><small>${template.description}</small></button>`,
     )
     .join("");
-  bindEvents();
 }
 
 function renderShapes(): void {
@@ -440,7 +441,6 @@ function renderShapes(): void {
         `<button class="shape-option ${data.avatarShape === shape ? "selected" : ""}" data-shape="${shape}" type="button" aria-label="${shape} avatar"><span class="avatar-shape ${shape}"></span></button>`,
     )
     .join("");
-  bindEvents();
 }
 
 function renderSkills(): void {
@@ -629,18 +629,19 @@ function renderSection(key: SectionKey): string {
         <a href="#work" class="primary-link">Explore my work <span>↗</span></a><a href="mailto:${safe(data.email)}">Let’s talk</a>
       </div>
     </div>
-    <div class="hero-visual"><div class="portfolio-avatar avatar-${data.avatarShape}">
-      ${
-        data.avatar
-          ? `<img src="${data.avatar}" alt="${safe(data.name)}" />`
-          : `<span>${data.name
-              .split(" ")
-              .map((part) => part[0])
-              .join("")
-              .slice(0, 2)
-              .toUpperCase()}</span>`
-      }
-    </div>
+    <div class="hero-visual">
+      <div class="portfolio-avatar avatar-${data.avatarShape}">
+        ${
+          data.avatar
+            ? `<img src="${data.avatar}" alt="${safe(data.name)}" />`
+            : `<span>${data.name
+                .split(" ")
+                .map((part) => part[0])
+                .join("")
+                .slice(0, 2)
+                .toUpperCase()}</span>`
+        }
+      </div>
       <div class="availability-card">
       <span></span><p><strong>Currently</strong>${safe(data.availability)}</p>
       </div>
@@ -701,6 +702,7 @@ function resetPortfolio(): void {
   renderSkills();
   renderSectionList();
   renderPreview();
+  bindEvents();
 }
 
 function exportPortfolio(): void {
