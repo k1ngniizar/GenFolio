@@ -63,6 +63,24 @@ button {
   align-items: center;
   gap: 10px;
 }
+.remove-item {
+  border: none;
+  border-radius: 5px;
+  background-color: transparent;
+  color: rgb(248, 95, 95);
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.add-item {
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: #1e7d4e;
+  color: white;
+  margin-top: 5px;
+  font-size: 12px;
+}
 .button,
 .icon-button {
   border: 0;
@@ -195,15 +213,17 @@ button {
   gap: 10px;
 }
 input,
-textarea {
+textarea,
+.form-group input {
   width: 100%;
   border: 1px solid #d8d3c9;
   border-radius: 6px;
   background: #fffdf9;
   outline: 0;
-  color: #252525;
+  color: #747070;
   padding: 10px 11px;
   font-size: 12px;
+  font-weight: 300;
 }
 input:focus,
 textarea:focus {
@@ -803,6 +823,17 @@ textarea {
   display: inline-block;
   margin-top: 12px;
 }
+.skill-list,
+.exp-list,
+.project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.skill-list span {
+  display: block;
+  position: relative;
+}
 .skills-section {
   background: var(--text);
   color: var(--bg);
@@ -826,6 +857,14 @@ textarea {
   border-radius: 30px;
   padding: 9px 14px;
   font-size: 10px;
+}
+
+.edit-project-container,
+.edit-exp-container {
+  position: relative;
+  border: 1px solid #d8d3c9;
+  padding: 5px;
+  border-radius: 5px;
 }
 .contact-section {
   background: var(--accent);

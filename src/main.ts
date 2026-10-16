@@ -220,6 +220,10 @@ app.innerHTML = `
                 <label>Projects</label>
                 <div id="projectsEditor" class="tag-editor"></div>
             </div>
+            <div class="form-group">
+                <label>Experience</label>
+                <div id="experienceEditor" class="tag-editor"></div>
+            </div>
           </section>
           <section class="editor-panel" data-panel="style">
             <div class="panel-intro">
@@ -289,6 +293,8 @@ app.innerHTML = `
 renderTemplates();
 renderShapes();
 renderSkills();
+renderProjectsEditor();
+renderExperience();
 renderSectionList();
 renderPreview();
 bindEvents();
@@ -446,8 +452,18 @@ function renderShapes(): void {
 function renderSkills(): void {
   console.log("Render Skills");
 
-  selectorFn("#skillsEditor").innerHTML =
-    `<div class="skill-list">${data.skills.map((skill, index) => `<span><input value="${escapeHtml(skill)}" data-skill-index="${index}" /><button type="button" data-remove-skill="${index}" aria-label="Remove ${escapeHtml(skill)}">x</button></span>`).join("")}</div><button class="add-item" data-list="skills" type="button">＋ Add skill</button>`;
+  selectorFn("#skillsEditor").innerHTML = `<div class="skill-list">
+      ${data.skills
+        .map(
+          (skill, index) => `<span>
+          <button class="remove-item" type="button" data-remove-skill="${index}" aria-label="Remove ${escapeHtml(skill)}">x</button>
+        <input value="${escapeHtml(skill)}" data-skill-index="${index}" />
+        
+        </span>`,
+        )
+        .join("")}
+        <button class="add-item" data-list="skills" type="button">＋ Add skill</button>
+    </div>`;
   selectorFn("#skillsEditor")
     .querySelectorAll<HTMLInputElement>("[data-skill-index]")
     .forEach((input) =>
@@ -477,6 +493,76 @@ function renderSkills(): void {
       renderPreview();
       saveData();
     });
+}
+
+function renderProjectsEditor(): void {
+  console.log("render project editor");
+
+  selectorFn("#projectsEditor").innerHTML = `<div class="project-list">
+    ${data.projects
+      .map((projects, index) => {
+        console.log(projects);
+        return `
+      <div class="edit-project-container" data-project-index=${index}>
+        <label>
+          <p>Name:</p>
+          <input value="${escapeHtml(projects.name)}" data-project-index=${index}/>
+        </label>
+        <label>
+          <p>Description:</p>
+          <textarea data-project-index=${index}>${escapeHtml(projects.description)}</textarea>
+        </label>
+        <label>
+          <p>Category:</p>
+          <input value="${escapeHtml(projects.category)}" data-project-index=${index}/>
+        </label>
+        <label>
+          <p>Project link:</p>
+          <input value="${escapeHtml(projects.link)}" data-project-index=${index}/>
+        </label>
+        <button class="remove-item" type="button" data-remove-project="${index}" aria-label="Remove ${escapeHtml(projects.name)}">x</button>
+      </div>`;
+      })
+      .join("")}
+    <button class="add-item" data-list="projects" type="button">＋ Add project</button>
+  </div>`;
+}
+
+function renderExperience(): void {
+  console.log("experience Editor");
+  selectorFn("#experienceEditor").innerHTML = `<div class="exp-list">
+      ${data.experience
+        .map((exp, idx) => {
+          return `
+        <div class="edit-exp-container" data-experience-index="${idx}">
+
+          <button class="remove-item" type="button" data-remove-experience="${idx}" aria-label="Remove ${escapeHtml(exp.description)}">x</button>
+
+          <label>
+            <p>Role:</p>
+            <input value="${exp.role}"  data-experience-index="${idx}"/>
+          </label>
+          <label>
+            <p>Description:</p>
+            <textarea data-experience-index="${idx}">${escapeHtml(exp.description)}</textarea>
+          </label>
+          <label>
+            <p>Company:</p>
+            <input value="${escapeHtml(exp.company)}" data-experience-index="${idx}" />
+          </label>
+          
+          <label>
+            <p>Period:</p>
+            <input value="${exp.period}"  data-experience-index="${idx}"/>
+          </label>
+
+        </div>
+        `;
+        })
+        .join("")}
+        <button class="add-item" data-list="experience" type="button">＋ Add project</button>
+    </div>
+  `;
 }
 
 function renderSectionList(): void {

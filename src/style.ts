@@ -401,7 +401,7 @@ export const styleTemplate = `
       .template-editorial .hero-copy {
         z-index: 1;
       }
-      .template-editorial .hero-visual .portfolio-avatar {
+      .template-editorial .hero-visual {
         border-radius: 0;
         width: 170px;
         height: 260px;
