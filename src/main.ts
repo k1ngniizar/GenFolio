@@ -506,19 +506,19 @@ function renderProjectsEditor(): void {
       <div class="edit-project-container" data-project-index=${index}>
         <label>
           <p>Name:</p>
-          <input value="${escapeHtml(projects.name)}" data-project-index=${index}/>
+          <input name="${escapeHtml(projects.name)}" value="${escapeHtml(projects.name)}" data-project-name-index=${index}/>
         </label>
         <label>
           <p>Description:</p>
-          <textarea data-project-index=${index}>${escapeHtml(projects.description)}</textarea>
+          <textarea name="${projects.description}" data-project-name-index=${index}>${escapeHtml(projects.description)}</textarea>
         </label>
         <label>
           <p>Category:</p>
-          <input value="${escapeHtml(projects.category)}" data-project-index=${index}/>
+          <input name="${escapeHtml(projects.category)}" value="${escapeHtml(projects.category)}" data-project-name-index=${index}/>
         </label>
         <label>
           <p>Project link:</p>
-          <input value="${escapeHtml(projects.link)}" data-project-index=${index}/>
+          <input name="${escapeHtml(projects.link)}" value="${escapeHtml(projects.link)}" data-project-name-index=${index}/>
         </label>
         <button class="remove-item" type="button" data-remove-project="${index}" aria-label="Remove ${escapeHtml(projects.name)}">x</button>
       </div>`;
