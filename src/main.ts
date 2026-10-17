@@ -468,6 +468,9 @@ function renderSkills(): void {
     .querySelectorAll<HTMLInputElement>("[data-skill-index]")
     .forEach((input) =>
       input.addEventListener("input", (event) => {
+        console.log(
+          Number((event.currentTarget as HTMLInputElement).dataset.skillIndex),
+        );
         data.skills[
           Number((event.currentTarget as HTMLInputElement).dataset.skillIndex)
         ] = (event.currentTarget as HTMLInputElement).value;
@@ -506,19 +509,19 @@ function renderProjectsEditor(): void {
       <div class="edit-project-container" data-project-index=${index}>
         <label>
           <p>Name:</p>
-          <input name="${escapeHtml(projects.name)}" value="${escapeHtml(projects.name)}" data-project-name-index=${index}/>
+          <input data-name="name" value="${escapeHtml(projects.name)}" data-project-name-index="${index}"/>
         </label>
         <label>
           <p>Description:</p>
-          <textarea name="${projects.description}" data-project-name-index=${index}>${escapeHtml(projects.description)}</textarea>
+          <textarea data-name="description" data-project-name-index="${index}">${escapeHtml(projects.description)}</textarea>
         </label>
         <label>
           <p>Category:</p>
-          <input name="${escapeHtml(projects.category)}" value="${escapeHtml(projects.category)}" data-project-name-index=${index}/>
+          <input data-name="category" value="${escapeHtml(projects.category)}" data-project-name-index="${index}"/>
         </label>
         <label>
           <p>Project link:</p>
-          <input name="${escapeHtml(projects.link)}" value="${escapeHtml(projects.link)}" data-project-name-index=${index}/>
+          <input data-name="link" value="${escapeHtml(projects.link)}" data-project-name-index="${index}"/>
         </label>
         <button class="remove-item" type="button" data-remove-project="${index}" aria-label="Remove ${escapeHtml(projects.name)}">x</button>
       </div>`;
@@ -526,6 +529,56 @@ function renderProjectsEditor(): void {
       .join("")}
     <button class="add-item" data-list="projects" type="button">＋ Add project</button>
   </div>`;
+
+  selectorFn("#projectsEditor")
+    .querySelectorAll<HTMLDivElement>("[data-project-index]")
+    .forEach((divEl) => {
+      divEl
+        .querySelectorAll<HTMLInputElement>("[data-project-name-index]")
+        .forEach((input) => {
+          input.addEventListener("input", (event) => {
+            const key = input.dataset.name as
+              | "name"
+              | "category"
+              | "description"
+              | "link";
+
+            data.projects[
+              Number(
+                (event.currentTarget as HTMLInputElement).dataset
+                  .projectNameIndex,
+              )
+            ][key] = (event.currentTarget as HTMLInputElement).value;
+            saveData();
+            renderPreview();
+          });
+        });
+    });
+
+  selectorFn("#projectsEditor")
+    .querySelectorAll<HTMLButtonElement>(".remove-item")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        data.projects.splice(Number(button.dataset.removeProject), 1);
+        saveData();
+        renderPreview();
+        renderProjectsEditor();
+      });
+    });
+
+  selectorFn("#projectsEditor")
+    .querySelector(".add-item")
+    ?.addEventListener("click", () => {
+      data.projects.push({
+        name: "Enter project name",
+        category: "Enter project category",
+        description: "Enter project description",
+        link: "https://example.com",
+      });
+      saveData();
+      renderPreview();
+      renderProjectsEditor();
+    });
 }
 
 function renderExperience(): void {
