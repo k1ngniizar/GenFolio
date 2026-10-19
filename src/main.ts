@@ -62,14 +62,15 @@ const sectionMeta: Record<SectionKey, { label: string; icon: string }> = {
 
 // DEFUALT PORTFOLIO DATA
 const defaultData: PortfolioData = {
-  name: "Alex Morgan",
-  title: "Product Designer & Creative Developer",
-  tagline: "I turn complex ideas into clear, memorable digital experiences.",
+  name: "Ebenezer West",
+  title: "Frontend Developer",
+  tagline:
+    "I'm a developer who turns ideas into interactive, functional and memorable experiences on the web.",
   summary:
-    "I’m a multidisciplinary designer who blends strategy, visual craft, and thoughtful technology to build products that feel human.",
-  email: "hello@alexmorgan.design",
-  location: "Based in London, UK",
-  website: "alexmorgan.design",
+    "I am a Frontend Developer with a strong focus on developing responsive, scalable, and user-centered web applications. I specialize in JavaScript, TypeScript, React, and Next.js, with additional experience in backend development and database management.",
+  email: "huncleniizar@gmail.com",
+  location: "Based in Rivers, Nigeria",
+  website: "ebenezer-west.vercel.app",
   availability: "Available for select projects",
   avatar: "",
   theme: {
@@ -79,48 +80,62 @@ const defaultData: PortfolioData = {
     muted: "#6d6a63",
     surface: "#fffdf8",
   },
-  template: "minimal",
-  avatarShape: "circle",
-  sections: ["hero", "about", "experience", "projects", "skills", "contact"],
+  template: "editorial",
+  avatarShape: "arch",
+  sections: ["hero", "about", "experience", "skills", "projects", "contact"],
   experience: [
     {
-      role: "Senior Product Designer",
-      company: "Northstar Studio",
-      period: "2022 — Now",
+      role: "Frontend Developer",
+      company: "Bromuno Technologies LTD.",
+      period: "2024 — 2025",
       description:
-        "Leading product design for ambitious digital platforms and building systems that scale.",
-    },
-    {
-      role: "Product Designer",
-      company: "Fieldwork",
-      period: "2019 — 2022",
-      description:
-        "Designed customer-facing products, improved activation, and mentored emerging designers.",
+        "Frontend developer, turning UI and design interface into functional software.",
     },
   ],
   projects: [
     {
-      name: "Orbit Finance",
-      category: "Product design",
+      name: "AFFPROP",
+      category: "Web & Real Estate",
       description:
-        "A calmer way to understand your money, built around clarity and confidence.",
-      link: "https://example.com",
+        "The modern real estate marketplace connecting sellers, buyers, and affiliate partners. Share verified listings and earn high commissions on every closing.",
+      link: "https://affprop.vercel.app",
     },
     {
-      name: "Morrow Journal",
-      category: "Brand & web",
+      name: "KUZZYLIFE STORE",
+      category: "Market & Web",
       description:
-        "A digital publishing experience for independent stories and ideas.",
-      link: "https://example.com",
+        "Kuzzy Market Systems is a technology-powered marketplace that connects customers to trusted local businesses and independent operators.",
+      link: "https://kuzzylife.com/about",
+    },
+    {
+      name: "Create Groups",
+      category: "Fun & Web",
+      description:
+        "Create groups let's you group people randomly whether it's just for a fun game, to share responsibilities, class grouping, debate teams, etc.",
+      link: "https://k1ngniizar.github.io/match/",
+    },
+    {
+      name: "WORDCHAMPS",
+      category: "Game & Web",
+      description:
+        "A competitive word game platform designed to challenge and entertain. Players can challenge each other in real-time matches and climb the leaderboard to become the ultimate Wordchamp.",
+      link: "https://word-champs.vercel.app/",
     },
   ],
   skills: [
-    "Product strategy",
-    "UX/UI design",
-    "Creative direction",
-    "Figma",
-    "Prototyping",
-    "Web design",
+    "TYPESCRIPT",
+    "REACT",
+    "NEXT.JS",
+    "TAILWIND CSS",
+    "JAVASCRIPT",
+    "HTML",
+    "CSS",
+    "NODE.JS",
+    "EXPRESS.JS",
+    "POSTGRESQL",
+    "MONGODB",
+    "GIT",
+    "GITHUB",
   ],
 };
 
@@ -294,7 +309,7 @@ renderTemplates();
 renderShapes();
 renderSkills();
 renderProjectsEditor();
-renderExperience();
+renderExperiencesEditor();
 renderSectionList();
 renderPreview();
 bindEvents();
@@ -462,7 +477,7 @@ function renderSkills(): void {
         </span>`,
         )
         .join("")}
-        <button class="add-item" data-list="skills" type="button">＋ Add skill</button>
+        <button class="add-item" data-list="skills" type="button">＋ Add Skill</button>
     </div>`;
   selectorFn("#skillsEditor")
     .querySelectorAll<HTMLInputElement>("[data-skill-index]")
@@ -527,7 +542,7 @@ function renderProjectsEditor(): void {
       </div>`;
       })
       .join("")}
-    <button class="add-item" data-list="projects" type="button">＋ Add project</button>
+    <button class="add-item" data-list="projects" type="button">＋ Add Project</button>
   </div>`;
 
   selectorFn("#projectsEditor")
@@ -580,42 +595,87 @@ function renderProjectsEditor(): void {
       renderProjectsEditor();
     });
 }
+function renderExperiencesEditor(): void {
+  console.log("render experience editor");
 
-function renderExperience(): void {
-  console.log("experience Editor");
   selectorFn("#experienceEditor").innerHTML = `<div class="exp-list">
-      ${data.experience
-        .map((exp, idx) => {
-          return `
-        <div class="edit-exp-container" data-experience-index="${idx}">
+    ${data.experience
+      .map((exp, index) => {
+        console.log(exp);
+        return `
+      <div class="edit-exp-container" data-experience-index=${index}>
+        <label>
+          <p>Company:</p>
+          <input data-name="company" value="${escapeHtml(exp.company)}" data-experience-name-index="${index}"/>
+        </label>
+        <label>
+          <p>Description:</p>
+          <textarea data-name="description" data-experience-name-index="${index}">${escapeHtml(exp.description)}</textarea>
+        </label>
+        <label>
+          <p>Role:</p>
+          <input data-name="role" value="${escapeHtml(exp.role)}" data-experience-name-index="${index}"/>
+        </label>
+        <label>
+          <p>Period:</p>
+          <input data-name="period" value="${escapeHtml(exp.period)}" data-experience-name-index="${index}"/>
+        </label>
+        <button class="remove-item" type="button" data-remove-experience="${index}" aria-label="Remove ${escapeHtml(exp.company)}">x</button>
+      </div>`;
+      })
+      .join("")}
+    <button class="add-item" data-list="experience" type="button">＋ Add Experience</button>
+  </div>`;
 
-          <button class="remove-item" type="button" data-remove-experience="${idx}" aria-label="Remove ${escapeHtml(exp.description)}">x</button>
+  selectorFn("#experienceEditor")
+    .querySelectorAll<HTMLDivElement>("[data-experience-index]")
+    .forEach((divEl) => {
+      divEl
+        .querySelectorAll<HTMLInputElement>("[data-experience-name-index]")
+        .forEach((input) => {
+          input.addEventListener("input", (event) => {
+            const key = input.dataset.name as
+              | "role"
+              | "description"
+              | "company"
+              | "period";
 
-          <label>
-            <p>Role:</p>
-            <input value="${exp.role}"  data-experience-index="${idx}"/>
-          </label>
-          <label>
-            <p>Description:</p>
-            <textarea data-experience-index="${idx}">${escapeHtml(exp.description)}</textarea>
-          </label>
-          <label>
-            <p>Company:</p>
-            <input value="${escapeHtml(exp.company)}" data-experience-index="${idx}" />
-          </label>
-          
-          <label>
-            <p>Period:</p>
-            <input value="${exp.period}"  data-experience-index="${idx}"/>
-          </label>
+            data.experience[
+              Number(
+                (event.currentTarget as HTMLInputElement).dataset
+                  .projectNameIndex,
+              )
+            ][key] = (event.currentTarget as HTMLInputElement).value;
+            saveData();
+            renderPreview();
+          });
+        });
+    });
 
-        </div>
-        `;
-        })
-        .join("")}
-        <button class="add-item" data-list="experience" type="button">＋ Add project</button>
-    </div>
-  `;
+  selectorFn("#experienceEditor")
+    .querySelectorAll<HTMLButtonElement>(".remove-item")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        data.experience.splice(Number(button.dataset.removeProject), 1);
+        saveData();
+        renderPreview();
+        renderExperiencesEditor();
+      });
+    });
+
+  selectorFn("#experienceEditor")
+    .querySelector(".add-item")
+    ?.addEventListener("click", () => {
+      data.experience.push({
+        role: "Enter role",
+        company: "Enter company name",
+        description: "Enter description",
+        period: "e.g 2017 - Now",
+      });
+      saveData();
+      renderPreview();
+      renderExperiencesEditor();
+    });
 }
 
 function renderSectionList(): void {
@@ -624,7 +684,15 @@ function renderSectionList(): void {
   selectorFn("#sectionList").innerHTML = data.sections
     .map(
       (key, index) =>
-        `<div class="section-row" draggable="true" data-section="${key}"><span class="drag-handle">⋮⋮</span><span class="section-icon">${sectionMeta[key].icon}</span><strong>${sectionMeta[key].label}</strong><div><button class="move-button" data-move="up" title="Move up" ${index === 0 ? "disabled" : ""}>↑</button><button class="move-button" data-move="down" title="Move down" ${index === data.sections.length - 1 ? "disabled" : ""}>↓</button><button class="remove-section" title="Remove section">×</button></div></div>`,
+        `<div class="section-row" draggable="true" data-section="${key}">
+          <span class="drag-handle">⋮⋮</span><span class="section-icon">${sectionMeta[key].icon}</span>
+          <strong>${sectionMeta[key].label}</strong>
+          <div>
+            <button class="move-button" data-move="up" title="Move up" ${index === 0 ? "disabled" : ""}>↑</button>
+            <button class="move-button" data-move="down" title="Move down" ${index === data.sections.length - 1 ? "disabled" : ""}>↓</button>
+            <button class="remove-section" title="Remove section">×</button>
+          </div>
+        </div>`,
     )
     .join("");
 }
@@ -663,6 +731,7 @@ function handleDragEnd(): void {
     .querySelectorAll(".dragging")
     .forEach((item) => item.classList.remove("dragging"));
 }
+
 function handleSectionToggle(event: Event): void {
   const button = (event.target as HTMLElement).closest<HTMLElement>(
     "[data-move]",
@@ -792,15 +861,104 @@ function renderSection(key: SectionKey): string {
   if (key === "about")
     return `
   <section class="portfolio-section about-section">
-    ${shared}<div class="about-grid"><h2>Designing with purpose,<br />building with care.</h2><div><p class="about-lead">${safe(data.summary)}</p><p>My approach mixes clear strategy with expressive visual systems. I care about the details that make a product feel effortless, useful, and distinctly yours.</p><a href="mailto:${safe(data.email)}">More about my work ↗</a></div></div>
+    ${shared}
+    <div class="about-grid">
+      <h2>Designing with purpose,<br />building with care.</h2>
+      <div>
+        <p class="about-lead">${safe(data.summary)}</p>
+        <p>My approach mixes clear strategy with expressive visual systems. I care about the details that make a product feel effortless, useful, and distinctly yours.</p>
+        <a href="mailto:${safe(data.email)}">More about my work ↗</a>
+      </div>
+    </div>
   </section>`;
   if (key === "experience")
-    return `<section class="portfolio-section experience-section">${shared}<div class="section-heading"><h2>Selected experience</h2><p>Roles and collaborations that shaped how I make.</p></div><div class="experience-list">${data.experience.map((item, index) => `<article class="experience-item"><span>${String(index + 1).padStart(2, "0")}</span><div><h3>${safe(item.role)}</h3><p><strong>${safe(item.company)}</strong> · ${safe(item.period)}</p><small>${safe(item.description)}</small></div></article>`).join("")}</div></section>`;
+    return `<section class="portfolio-section experience-section">
+  ${shared}
+    <div class="section-heading">
+      <h2>Selected experience</h2>
+      <p>Roles and collaborations that shaped how I make.</p>
+    </div>
+    <div class="experience-list">
+    ${data.experience
+      .map(
+        (item, index) => `
+      <article class="experience-item">
+        <span>${String(index + 1).padStart(2, "0")}</span>
+        <div>
+          <h3>${safe(item.role)}</h3>
+          <p>
+            <strong>${safe(item.company)}</strong> · ${safe(item.period)}
+          </p>
+          <small>${safe(item.description)}</small>
+        </div>
+      </article>
+      `,
+      )
+      .join("")}
+    </div>
+  </section>`;
   if (key === "projects")
-    return `<section class="portfolio-section projects-section" id="work">${shared}<div class="section-heading"><h2>Work with a point of view.</h2><p>Selected projects across product, brand, and digital experiences.</p></div><div class="project-grid">${data.projects.map((project, index) => `<article class="project-card"><div class="project-art art-${index + 1}"><span>${String(index + 1).padStart(2, "0")}</span><i></i></div><div><p>${safe(project.category)}</p><h3>${safe(project.name)}</h3><small>${safe(project.description)}</small><a href="${safe(project.link)}" target="_blank" rel="noreferrer">View project ↗</a></div></article>`).join("")}</div></section>`;
+    return `
+  <section class="portfolio-section projects-section" id="work">
+  ${shared}
+    <div class="section-heading">
+      <h2>Work with a point of view.</h2>
+      <p>Selected projects across product, brand, and digital experiences.</p>
+    </div>
+    <div class="project-grid">${data.projects
+      .map(
+        (project) => `
+      <article class="project-card">
+        <div class="project-art">
+          <span>${project.name
+            .split(" ")
+            .map((part) => part[0])
+            .join("")
+            .slice(0, 2)
+            .toUpperCase()}</span>
+        </div>
+        <div>
+          <p>${safe(project.category)}</p>
+          <h3>${safe(project.name)}</h3>
+          <small>${safe(project.description)}</small>
+          <a href="${safe(project.link)}" target="_blank" rel="noreferrer">View project ↗</a>
+        </div>
+      </article>`,
+      )
+      .join("")}
+    </div>
+  </section>`;
   if (key === "skills")
-    return `<section class="portfolio-section skills-section">${shared}<div class="skills-layout"><h2>Tools for thoughtful<br />experiences.</h2><div class="skill-tags">${data.skills.map((skill) => `<span>${safe(skill)}</span>`).join("")}</div></div></section>`;
-  return `<section class="portfolio-section contact-section">${shared}<div class="contact-grid"><h2>Have a project in mind?</h2><div><p>Let’s make something meaningful.</p><a href="mailto:${safe(data.email)}">${safe(data.email)} <span>↗</span></a><div class="contact-details"><span>${safe(data.location)}</span><span>${safe(data.website)}</span></div></div></div></section>`;
+    return `
+  <section class="portfolio-section skills-section">
+  ${shared}
+    <div class="skills-layout">
+      <h2>Tools for thoughtful<br />experiences.</h2>
+      <div class="skill-tags">
+      ${data.skills
+        .map(
+          (skill) => `
+        <span>${safe(skill)}</span>`,
+        )
+        .join("")}
+      </div>
+    </div>
+  </section>`;
+  return `
+  <section class="portfolio-section contact-section">
+    ${shared}
+      <div class="contact-grid">
+        <h2>Have a project in mind?</h2>
+        <div>
+          <p>Let’s make something meaningful.</p>
+          <a href="mailto:${safe(data.email)}">${safe(data.email)} <span>↗</span></a>
+          <div class="contact-details">
+            <span>${safe(data.location)}</span>
+            <span>${safe(data.website)}</span>
+          </div>
+        </div>
+      </div>
+  </section>`;
 }
 
 function handleAvatarUpload(event: Event): void {
@@ -846,7 +1004,27 @@ function resetPortfolio(): void {
 
 function exportPortfolio(): void {
   const source = selectorFn("#preview").outerHTML;
-  const html = `<!doctype html><html><head><meta charset="utf-8"><title>${escapeHtml(data.name)} — Portfolio</title><style>${styleTemplate}</style></head><body>${source}</body></html>`;
+  const html = `<!doctype html>
+  <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>${escapeHtml(data.name)} — Portfolio</title>
+      <meta content="${escapeHtml(data.name)}" property="og:title" />
+      <meta property="og:type" content="website" />
+      <link
+      rel="icon"
+      type="image/svg+xml"
+      href="https://res.cloudinary.com/dh4kjwb0h/image/upload/v1792431064/GenfolioIcon_gaolk6.jpg"
+      />
+      <meta
+        name="description"
+        content="${escapeHtml(data.summary)}"
+      />
+      <style>${styleTemplate}</style>
+    </head>
+    <body>${source}</body>
+  </html>`;
   const blob = new Blob([html], { type: "text/html" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
