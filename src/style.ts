@@ -1,4 +1,5 @@
-export const styleTemplate = ` :root {
+export const styleTemplate = ` 
+:root {
         font-family: "DM Sans", sans-serif;
         color: #181818;
         background: #e9e6df;
@@ -257,45 +258,22 @@ export const styleTemplate = ` :root {
       }
       .project-art {
         height: 210px;
-        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         overflow: hidden;
-        background: #ddd;
-      }
-      .project-art::before,
-      .project-art::after {
-        content: "";
-        position: absolute;
-        border-radius: 50%;
-      }
-      .project-art::before {
-        width: 140px;
-        height: 140px;
-        background: var(--accent);
-        top: 35px;
-        left: 28px;
-      }
-      .project-art::after {
-        width: 160px;
-        height: 38px;
         background: var(--text);
-        transform: rotate(-25deg);
-        right: -10px;
-        top: 90px;
-      }
-      .art-2::before {
-        border-radius: 0;
-        transform: rotate(35deg);
-      }
-      .art-2::after {
-        border-radius: 5px;
-        background: var(--accent);
       }
       .project-art span {
-        position: absolute;
-        z-index: 2;
-        font-size: 9px;
-        left: 14px;
-        top: 13px;
+        font-size: 50px;
+        font-weight: 900;
+        background-color: var(--accent);
+        color: var(--text);
+        height: 100px;
+        width: 100px;
+        text-align: center;
+        align-content: center;
+        border-radius: 50%;
       }
       .project-card > div:last-child {
         padding: 18px;
@@ -400,7 +378,7 @@ export const styleTemplate = ` :root {
       .template-editorial .hero-copy {
         z-index: 1;
       }
-      .template-editorial .hero-visual .portfolio-avatar {
+      .template-editorial .hero-visual {
         border-radius: 0;
         width: 170px;
         height: 260px;
