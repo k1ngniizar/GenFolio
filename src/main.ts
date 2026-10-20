@@ -166,7 +166,6 @@ const selectorFn = <T extends HTMLElement = HTMLElement>(selector: string): T =>
   document.querySelector(selector) as T;
 const app = selectorFn("#app");
 let data = loadData();
-console.log("Main data::", data);
 let draggedSection: SectionKey | null = null;
 
 app.innerHTML = `
@@ -332,7 +331,6 @@ function loadData(): PortfolioData {
 
 // SAVE DATA TO LOCAL STORAGE AND RENDER BUTTON
 function saveData(): void {
-  console.log("Save data");
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   const button = selectorFn("#saveButton");
   button.classList.add("saved");
@@ -344,8 +342,6 @@ function saveData(): void {
 }
 
 function bindEvents(): void {
-  console.log("Bind events");
-
   document
     .querySelectorAll<HTMLButtonElement>(".tab")
     .forEach((button) =>
@@ -434,17 +430,14 @@ function updateField(event: Event): void {
 function updateColor(event: Event): void {
   const color = (event.currentTarget as HTMLInputElement).dataset
     .color as keyof typeof data.theme;
-  console.log("Check data:: ", data.theme);
 
   data.theme[color] = (event.currentTarget as HTMLInputElement).value;
-  console.log("After check:: ", data.theme);
 
   renderPreview();
   saveData();
 }
 
 function renderTemplates(): void {
-  console.log("Render templates");
   selectorFn("#templateGrid").innerHTML = templateOptions
     .map(
       (template) =>
@@ -454,7 +447,6 @@ function renderTemplates(): void {
 }
 
 function renderShapes(): void {
-  console.log("Render shapes");
   const shapes: AvatarShape[] = ["circle", "square", "diamond", "arch"];
   selectorFn("#shapeGrid").innerHTML = shapes
     .map(
@@ -465,8 +457,6 @@ function renderShapes(): void {
 }
 
 function renderSkills(): void {
-  console.log("Render Skills");
-
   selectorFn("#skillsEditor").innerHTML = `<div class="skill-list">
       ${data.skills
         .map(
@@ -483,9 +473,6 @@ function renderSkills(): void {
     .querySelectorAll<HTMLInputElement>("[data-skill-index]")
     .forEach((input) =>
       input.addEventListener("input", (event) => {
-        console.log(
-          Number((event.currentTarget as HTMLInputElement).dataset.skillIndex),
-        );
         data.skills[
           Number((event.currentTarget as HTMLInputElement).dataset.skillIndex)
         ] = (event.currentTarget as HTMLInputElement).value;
@@ -514,12 +501,9 @@ function renderSkills(): void {
 }
 
 function renderProjectsEditor(): void {
-  console.log("render project editor");
-
   selectorFn("#projectsEditor").innerHTML = `<div class="project-list">
     ${data.projects
       .map((projects, index) => {
-        console.log(projects);
         return `
       <div class="edit-project-container" data-project-index=${index}>
         <label>
@@ -596,12 +580,9 @@ function renderProjectsEditor(): void {
     });
 }
 function renderExperiencesEditor(): void {
-  console.log("render experience editor");
-
   selectorFn("#experienceEditor").innerHTML = `<div class="exp-list">
     ${data.experience
       .map((exp, index) => {
-        console.log(exp);
         return `
       <div class="edit-exp-container" data-experience-index=${index}>
         <label>
@@ -679,8 +660,6 @@ function renderExperiencesEditor(): void {
 }
 
 function renderSectionList(): void {
-  console.log("Render Section list");
-
   selectorFn("#sectionList").innerHTML = data.sections
     .map(
       (key, index) =>
@@ -782,8 +761,6 @@ function addItem(event: Event): void {
 }
 
 function renderPreview(): void {
-  console.log("Render Preview");
-
   const initials = data.name
     .split(" ")
     .map((part) => part[0])
